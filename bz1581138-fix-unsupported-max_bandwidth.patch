@@ -1,0 +1,11 @@
+diff -uNr a/awscli/customizations/s3/transferconfig.py b/awscli/customizations/s3/transferconfig.py
+--- a/awscli/customizations/s3/transferconfig.py	2018-01-18 02:06:58.000000000 +0100
++++ b/awscli/customizations/s3/transferconfig.py	2018-05-24 13:45:29.714544364 +0200
+@@ -109,7 +109,6 @@
+         'max_queue_size': 'max_request_queue_size',
+         'multipart_threshold': 'multipart_threshold',
+         'multipart_chunksize': 'multipart_chunksize',
+-        'max_bandwidth': 'max_bandwidth',
+     }
+     kwargs = {}
+     for key, value in runtime_config.items():

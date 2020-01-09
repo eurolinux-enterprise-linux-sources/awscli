@@ -13,7 +13,7 @@
 
 Name:           awscli
 Version:        1.14.28
-Release:        5%{?dist}
+Release:        5%{?dist}.1
 Summary:        Universal Command Line Environment for AWS
 
 License:        ASL 2.0
@@ -22,6 +22,7 @@ Source0:        %{name}/%{name}-%{version}.tar.gz
 Source1:        colorama-%{colorama_version}.tar.gz
 Patch0:         python-rsa-to-cryptography.patch
 Patch1:         bundled-python-botocore.patch
+Patch2:         bz1581138-fix-unsupported-max_bandwidth.patch
 BuildArch:      noarch
 %if %{with python3}
 BuildRequires:  python3-devel
@@ -70,8 +71,10 @@ rm -rf %{name}.egg-info
 # python-botocore bundled in python-s3transfer
 %patch1 -p1
 
+# fix unsupported max_bandwidth
+%patch2 -p1
+
 # python-colorama bundle
-#%patch2 -p1
 mkdir -p %{bundled_lib_dir}
 tar -xzf %SOURCE1 -C %{bundled_lib_dir}
 mv %{bundled_lib_dir}/colorama-%{colorama_version} %{colorama_dir}
@@ -145,6 +148,11 @@ popd
 %{_libdir}/fence-agents/bundled
 
 %changelog
+* Thu May 24 2018 Oyvind Albrigtsen <oalbrigt@redhat.com> - 1.14.28-5.1
+- Fix unsupported max_bandwidth issue
+
+  Resolves: rhbz#1581138
+
 * Mon Feb 12 2018 Oyvind Albrigtsen <oalbrigt@redhat.com> - 1.14.28-5
 - Append python-botocore and python-jmespath bundled directory to
   search path where needed
